@@ -25,7 +25,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     gender = models.BooleanField(choices=[
         (True, "Erkak"),
         (False, "Ayol")
-    ])
+    ],null=True, blank=True)
 
     role = models.SmallIntegerField(choices=[
         (1, 'Admin'),
@@ -44,6 +44,20 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ["role", ]
+
+    def response(self):
+        return {
+            "id": self.id,
+            "fullname": self.fullname,
+            "username": self.username,
+            "age": self.age,
+            "gender": self.gender,
+            "role": self.role,
+            "password": self.password,
+            "is_active": "ha active" if self.is_active else "user ban qilingan",
+            "is_staff": 'ha staff' if self.is_staff else "yo'q",
+            "is_superuser": "ha superuser" if self.is_superuser else "yo'q"
+        }
 
 
 class Firma(models.Model):
